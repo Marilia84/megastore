@@ -1,0 +1,11 @@
+[package]
+name = "megastore"
+version = "0.1.0"
+edition = "2021"
+description = "ConectaStore - Sistema de recomendação de produtos baseado em grafos"
+
+# Sem dependências externas: só a biblioteca padrão (std) do Rust.
+[dependencies]
+
+[profile.release]
+opt-level = 3
