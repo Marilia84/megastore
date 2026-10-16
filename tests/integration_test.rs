@@ -1,4 +1,4 @@
-// Testes de INTEGRAÇÃO: usam o projeto "de fora", como outro programa usaria (só API pública).
+// Testes de INTEGRAÇÃO:
 use megastore::bench::build_synthetic;
 use megastore::product::Product;
 use megastore::recommender::Recommender;

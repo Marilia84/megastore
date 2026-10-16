@@ -3,7 +3,7 @@ use megastore::product::Product;
 use megastore::recommender::Recommender;
 use std::io::{self, Write};
 
-/// Lê uma linha do teclado, já sem espaços/enter nas pontas.
+
 fn ler(prompt: &str) -> String {
     print!("{}", prompt);
     io::stdout().flush().unwrap(); // garante que o prompt aparece antes de esperar a digitação
@@ -12,7 +12,7 @@ fn ler(prompt: &str) -> String {
     s.trim().to_string()
 }
 
-/// Lê um número; retorna None se o texto não for número válido.
+
 fn ler_num<T: std::str::FromStr>(prompt: &str) -> Option<T> {
     ler(prompt).parse().ok()
 }

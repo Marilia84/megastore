@@ -101,7 +101,6 @@ impl Recommender {
     }
 
     /// Recomenda a partir de um CLIENTE.
-    /// Caminho: Cliente -> Produto (já comprou) -> Cliente/Categoria -> Produto (candidato)
     /// Por isso os candidatos estão a 3 saltos (profundidade 3).
     pub fn recommend_for_customer(&self, customer_id: u32, limit: usize) -> Vec<Recommendation> {
         match self.graph.node_index(&NodeKey::Customer(customer_id)) {
@@ -110,7 +109,7 @@ impl Recommender {
         }
     }
 
-    /// Recomenda produtos relacionados a um PRODUTO ("quem viu/comprou este também levou...").
+    /// Recomenda produtos relacionados a um PRODUTO
     /// Caminho: Produto -> Cliente/Categoria -> Produto (candidato) = profundidade 2.
     pub fn recommend_for_product(&self, product_id: u32, limit: usize) -> Vec<Recommendation> {
         match self.graph.node_index(&NodeKey::Product(product_id)) {
@@ -119,7 +118,7 @@ impl Recommender {
         }
     }
 
-    /// BFS clássica (com FILA) + acúmulo de score.
+    /// explicação BFS clássica (com FILA)
     ///
     /// - `fila` (VecDeque): FIFO, visita os vértices em ordem crescente de distância.
     /// - `dist` (HashMap): distância de cada vértice até o início. Também serve de
@@ -129,11 +128,7 @@ impl Recommender {
     ///   entre os candidatos de distância 3 -> nunca são recomendados de novo.
     /// - `score`: se um vértice é alcançado por vários caminhos de mesmo comprimento
     ///   (ex.: 2 clientes parecidos compraram o mesmo produto), os scores somam.
-    ///   Como a fila é FIFO, todos os vértices do nível d-1 saem da fila antes de
-    ///   qualquer vértice do nível d, então o score de um vértice já está completo
-    ///   quando chega a vez dele.
-    /// - Não expandimos vértices que já estão em `target_depth`: o custo depende da
-    ///   vizinhança do início, não do tamanho total do catálogo.
+   
     fn explore(&self, start: usize, target_depth: usize, limit: usize) -> Vec<Recommendation> {
         let mut dist: HashMap<usize, usize> = HashMap::new();
         let mut score: HashMap<usize, f64> = HashMap::new();

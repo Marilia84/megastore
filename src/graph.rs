@@ -10,12 +10,9 @@ pub enum NodeKey {
 }
 
 /// Grafo NÃO direcionado e PONDERADO, implementado com lista de adjacência.
-///
-/// Os vértices são guardados por índice (usize) em vetores: acessar `adj[i]` é O(1)
-/// e ocupa menos memória do que ficar passando NodeKey (que pode ter String) de um lado para o outro.
 #[derive(Debug, Default)]
 pub struct Graph {
-    keys: Vec<NodeKey>,                 // índice -> chave (para "traduzir" de volta)
+    keys: Vec<NodeKey>,                 // chave para "traduzir" de volta
     index: HashMap<NodeKey, usize>,     // chave -> índice (para achar o vértice em O(1))
     adj: Vec<Vec<(usize, f64)>>,        // adj[i] = lista de (vizinho, peso)
     edge_count: usize,
@@ -52,7 +49,6 @@ impl Graph {
         &self.adj[idx]
     }
 
-    /// Adiciona aresta não direcionada a <-> b com peso `w`.
     /// Se a aresta já existir, NÃO duplica: só guarda o maior peso.
     /// Custo: O(grau(a) + grau(b)) por causa da checagem de duplicata.
     pub fn add_edge(&mut self, a: usize, b: usize, w: f64) {
